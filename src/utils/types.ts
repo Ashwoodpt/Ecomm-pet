@@ -55,7 +55,7 @@ export type FilterSortType = 'price-lowest' | 'price-highest' | 'name-a' | 'name
 
 export type FilterType = {
 	text: string;
-	company: [string];
+	company: Array<string>;
 	category: string;
 	color: string;
 	min_price: number;

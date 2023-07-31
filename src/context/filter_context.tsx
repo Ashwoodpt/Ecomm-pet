@@ -39,16 +39,21 @@ export const FilterProvider = ({ children }: { children: React.ReactNode }) => {
 		dispatch({ type: UPDATE_SORT, payload: value });
 	};
 
-	const updateFilters = (e: React.ChangeEvent<HTMLInputElement | HTMLButtonElement>) => {
-		const name = e.target.name;
-		let value = e.target.value;
+	const updateFilters = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const name: string = e.target.name;
+		let value: string | number | boolean = e.target.value;
 
 		if (name === 'category') value = e.target.textContent;
 		if (name === 'company') value = e.target.id;
+		if (name === 'color') value = e.target.dataset.color;
+		if (name === 'price') value = Number(value);
+		if (name === 'shipping') value = e.target.checked;
 
 		dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
 	};
-	const clearFilters = () => {};
+	const clearFilters = () => {
+		dispatch({ type: CLEAR_FILTERS });
+	};
 
 	useEffect(() => {
 		dispatch({ type: LOAD_PRODUCTS, payload: products });

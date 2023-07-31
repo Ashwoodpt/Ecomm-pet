@@ -9,6 +9,7 @@ const Filters = () => {
 	const {
 		filters: { text, company: current_company, category: current_category, color, min_price, price, max_price, shipping },
 		updateFilters,
+		clearFilters,
 		all_products,
 	} = useFilterContext() as FilterContextType;
 
@@ -23,6 +24,7 @@ const Filters = () => {
 					<div className="form-control">
 						<input type="text" name="text" id="text" placeholder="Search" className="search-input" value={text} onChange={updateFilters} />
 					</div>
+					{/* category start */}
 					<div className="form-control">
 						<h5>category</h5>
 						<div>
@@ -33,18 +35,54 @@ const Filters = () => {
 							))}
 						</div>
 					</div>
+					{/* company start */}
 					<div className="form-control">
 						<h5>Company</h5>
 						<div className="company">
-							{unique_companies.map((company, index) => (
-								<div className="checkbox" key={index}>
-									<input type="checkbox" name="company" id={company} checked={current_company.includes(company)} onChange={updateFilters}></input>
-									<label htmlFor={company}>{company}</label>
-								</div>
-							))}
+							{unique_companies.map((company, index) => {
+								return (
+									<div className="checkbox" key={index}>
+										<input type="checkbox" name="company" id={company} checked={current_company.includes(company) || current_company.includes('all')} onChange={updateFilters}></input>
+										<label htmlFor={company}>{company}</label>
+									</div>
+								);
+							})}
 						</div>
 					</div>
+					{/* colors start */}
+					<div className="form-control">
+						<h5>Colors</h5>
+						<div className="colors">
+							{unique_colors.map((c, index) => {
+								if (c === 'all')
+									return (
+										<button key={index} name="color" className={`${color === 'all' ? 'all-btn active' : 'all-btn'}`} data-color="all" onClick={updateFilters}>
+											All
+										</button>
+									);
+								return (
+									<button key={index} name="color" className={`${color === c ? 'color-btn active' : 'color-btn'}`} style={{ background: c }} data-color={c} onClick={updateFilters}>
+										{color === c ? <FaCheck /> : null}
+									</button>
+								);
+							})}
+						</div>
+					</div>
+					{/* price start */}
+					<div className="form-control">
+						<h5>Price</h5>
+						<p className="price">{formatPrice(price)}</p>
+						<input type="range" name="price" id="price" onChange={updateFilters} min={min_price} max={max_price} value={price} />
+					</div>
+					{/* free shipping checkbox */}
+					<div className="form-control shipping">
+						<label htmlFor="shipping">Free shipping</label>
+						<input type="checkbox" name="shipping" id="shipping" checked={shipping} onChange={updateFilters} />
+					</div>
 				</form>
+				<button type="button" className="clear-btn" onClick={clearFilters}>
+					Clear filters
+				</button>
 			</div>
 		</Wrapper>
 	);

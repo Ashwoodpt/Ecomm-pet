@@ -42,16 +42,47 @@ const filter_reducer = (state: FilterContextType, action: FilterActionType) => {
 
 	if (action.type === UPDATE_FILTERS) {
 		const { name, value } = action.payload as ChangeFilterType;
-		if (name === 'company') {
-			let newState = {};
 
+		if (name === 'company') {
+			if (value === 'all' && !state.filters.company.includes('all')) return { ...state, filters: { ...state.filters, company: ['all'] } };
+			let newState: FilterContextType = { ...state, filters: { ...state.filters, company: [...state.filters.company, value as string] } };
+			if (state.filters.company.includes('all')) newState = { ...state, filters: { ...newState.filters, company: newState.filters.company.filter((company) => company !== 'all') } };
 			if (state.filters.company.includes(value as string)) {
 				newState = { ...state, filters: { ...state.filters, company: state.filters.company.filter((company) => company !== value) } };
-			} else newState = { ...state, filters: { ...state.filters, company: [...state.filters.company, value] } };
+			}
 			return newState;
 		}
+
+		return { ...state, filters: { ...state.filters, [name]: value } };
 	}
+	if (action.type === CLEAR_FILTERS) {
+		return { ...state, filters: { ...state.filters, text: '', company: ['all'], category: 'all', color: 'all', price: state.filters.max_price, shipping: false } };
+	}
+
 	if (action.type === FILTER_PRODUCTS) {
+		const { all_products } = state;
+		const { text, company, category, color, price, shipping } = state.filters;
+		let tempProducts: ProductType[] = [...all_products];
+
+		if (text) {
+			tempProducts = tempProducts.filter((product) => product.name.toLowerCase().includes(text));
+		}
+		if (!company.includes('all')) {
+			tempProducts = tempProducts.filter((product) => company.includes(product.company));
+		}
+		if (category !== 'all') {
+			tempProducts = tempProducts.filter((product) => product.category === category);
+		}
+		if (color !== 'all') {
+			tempProducts = tempProducts.filter((product) => product.colors.includes(color));
+		}
+		if (shipping) {
+			tempProducts = tempProducts.filter((product) => product.shipping);
+		}
+
+		tempProducts = tempProducts.filter((product) => product.price <= price);
+
+		return { ...state, filtered_products: tempProducts };
 	}
 	return state;
 	throw new Error(`No Matching "${action.type}" - action type`);

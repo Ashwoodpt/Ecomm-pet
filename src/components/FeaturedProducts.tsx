@@ -1,12 +1,12 @@
 import { useProductsContext } from '../context/products_context';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Error from './Error';
 import Loading from './Loading';
 import Product from './Product';
+import { ProductContextType } from '../utils/types';
 
 const FeaturedProducts = () => {
-	const { areProductsLoading: loading, areProductsError: error, featured_products: featured } = useProductsContext();
+	const { areProductsLoading: loading, areProductsError: error, featured_products: featured } = useProductsContext() as ProductContextType;
 
 	if (loading) {
 		return <Loading />;

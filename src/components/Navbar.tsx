@@ -7,9 +7,10 @@ import { links } from '../utils/constants';
 import CartButtons from './CartButtons';
 import { useProductsContext } from '../context/products_context';
 import { useUserContext } from '../context/user_context';
+import { ProductContextType } from '../utils/types';
 
 const Nav = () => {
-	const { openSidebar } = useProductsContext();
+	const { openSidebar } = useProductsContext() as ProductContextType;
 	return (
 		<Wrapper>
 			<div className="nav-center">

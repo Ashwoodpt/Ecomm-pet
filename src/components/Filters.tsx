@@ -3,8 +3,6 @@ import { useFilterContext } from '../context/filter_context';
 import { getUniqueValues, formatPrice } from '../utils/helpers';
 import { FaCheck } from 'react-icons/fa';
 import { FilterContextType } from '../utils/types';
-import { useState } from 'react';
-
 const Filters = () => {
 	const {
 		filters: { text, company: current_company, category: current_category, color, min_price, price, max_price, shipping },

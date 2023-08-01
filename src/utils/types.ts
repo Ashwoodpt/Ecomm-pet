@@ -1,3 +1,5 @@
+import { AppState, LogoutOptions, User, RedirectLoginOptions } from '@auth0/auth0-react';
+
 export type ProductContextType = {
 	isSidebarOpen: boolean;
 	areProductsLoading: boolean;
@@ -112,4 +114,11 @@ export type CartPayloadType = {
 	color: string;
 	amount: number;
 	product: singleProductType;
+};
+
+export type UserContextType = {
+	myUser: User;
+	isAuthenticated: boolean;
+	loginWithRedirect: (options?: RedirectLoginOptions<AppState>) => Promise<void>;
+	logout: (options?: LogoutOptions) => Promise<void>;
 };

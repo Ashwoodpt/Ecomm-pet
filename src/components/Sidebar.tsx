@@ -6,10 +6,11 @@ import { links } from '../utils/constants';
 import styled from 'styled-components';
 import CartButtons from './CartButtons';
 import { useUserContext } from '../context/user_context';
-import { ProductContextType } from '../utils/types';
+import { ProductContextType, UserContextType } from '../utils/types';
 
 const Sidebar = () => {
 	const { isSidebarOpen, closeSidebar } = useProductsContext() as ProductContextType;
+	const { myUser } = useUserContext() as UserContextType;
 	return (
 		<SidebarContainer>
 			<aside className={isSidebarOpen ? 'sidebar show-sidebar' : 'sidebar'}>
@@ -29,9 +30,13 @@ const Sidebar = () => {
 							</li>
 						);
 					})}
-					<Link to="/checkout" onClick={closeSidebar}>
-						Checkout
-					</Link>
+					{myUser ? (
+						<li>
+							<Link to="/checkout" onClick={closeSidebar}>
+								Checkout
+							</Link>
+						</li>
+					) : null}
 				</ul>
 				<CartButtons />
 			</aside>

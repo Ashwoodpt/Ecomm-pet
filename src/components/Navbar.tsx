@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import { FaBars } from 'react-icons/fa';
@@ -7,10 +6,10 @@ import { links } from '../utils/constants';
 import CartButtons from './CartButtons';
 import { useProductsContext } from '../context/products_context';
 import { useUserContext } from '../context/user_context';
-import { ProductContextType } from '../utils/types';
-
+import { ProductContextType, UserContextType } from '../utils/types';
 const Nav = () => {
 	const { openSidebar } = useProductsContext() as ProductContextType;
+	const { myUser } = useUserContext() as UserContextType;
 	return (
 		<Wrapper>
 			<div className="nav-center">
@@ -30,6 +29,11 @@ const Nav = () => {
 							</li>
 						);
 					})}
+					{myUser ? (
+						<li>
+							<Link to="/checkout">Checkout</Link>
+						</li>
+					) : null}
 				</ul>
 				<CartButtons />
 			</div>

@@ -1,5 +1,4 @@
 import { GiCompass, GiDiamondHard, GiStabbedNote } from 'react-icons/gi';
-import { IconType } from 'react-icons';
 export const links: { id: number; text: string; url: string }[] = [
 	{
 		id: 1,

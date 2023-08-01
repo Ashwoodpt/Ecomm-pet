@@ -1,14 +1,15 @@
-import { FaShoppingCart, FaUserMinus, FaUserPlus } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProductsContext } from '../context/products_context';
 import { useCartContext } from '../context/cart_context';
 import { useUserContext } from '../context/user_context';
-import { CartContextType, ProductContextType } from '../utils/types';
+import { CartContextType, ProductContextType, UserContextType } from '../utils/types';
 
 const CartButtons = () => {
 	const { closeSidebar } = useProductsContext() as ProductContextType;
 	const { total_items } = useCartContext() as CartContextType;
+	const { loginWithRedirect, myUser, logout } = useUserContext() as UserContextType;
 	return (
 		<Wrapper className="cart-btn-wrapper">
 			<Link to="/cart" className="cart-btn" onClick={closeSidebar}>
@@ -18,9 +19,15 @@ const CartButtons = () => {
 					<span className="cart-value">{total_items}</span>
 				</span>
 			</Link>
-			<button type="button" className="auth-btn btn" onClick={closeSidebar}>
-				Login
-			</button>
+			{myUser ? (
+				<button type="button" className="auth-btn btn" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+					Logout
+				</button>
+			) : (
+				<button type="button" className="auth-btn btn" onClick={() => loginWithRedirect()}>
+					Login
+				</button>
+			)}
 		</Wrapper>
 	);
 };
@@ -71,6 +78,7 @@ const Wrapper = styled.div`
 		border-color: transparent;
 		background: var(--clr-primary-5);
 		font-size: 1.5rem;
+		margin-left: 2rem;
 		cursor: pointer;
 		color: var(--clr-grey-10);
 		letter-spacing: var(--spacing);

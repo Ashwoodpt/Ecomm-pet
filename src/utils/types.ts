@@ -85,3 +85,31 @@ export type FilterContextType = {
 	updateFilters?: () => void;
 	clearFilters?: () => void;
 };
+
+export type CartContextType = {
+	cart: CartItemType[];
+	total_items: number;
+	total_amount: number;
+	shipping_fee: number;
+	addToCart?: (id: string, color: string, amount: number, product: singleProductType) => void;
+	removeItem?: (id: string) => void;
+	toggleAmount?: (id: string, value) => void;
+	clearCart?: () => void;
+};
+
+export type CartItemType = {
+	id: string;
+	name: string;
+	color: string;
+	image: string;
+	amount: number;
+	price: number;
+	max: number;
+};
+
+export type CartPayloadType = {
+	id: string;
+	color: string;
+	amount: number;
+	product: singleProductType;
+};

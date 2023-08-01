@@ -6,10 +6,10 @@ import { formatPrice } from '../utils/helpers';
 import { Loading, Error, ProductImages, AddToCart, Stars, PageHero } from '../components';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { singleProductType } from '../utils/types';
+import { ProductContextType, singleProductType } from '../utils/types';
 
 const SingleProductPage = () => {
-	const { fetchSingleProduct, single_product: product, isSingleProductError: error, isSingleProductLoading: loading } = useProductsContext();
+	const { fetchSingleProduct, single_product: product, isSingleProductError: error, isSingleProductLoading: loading } = useProductsContext() as ProductContextType;
 	const { id } = useParams();
 	useEffect(() => {
 		fetchSingleProduct(`${url}${id}`);
@@ -46,7 +46,7 @@ const SingleProductPage = () => {
 							{company}
 						</p>
 						<hr />
-						{stock && <AddToCart product={product as singleProductType} />}
+						{stock ? <AddToCart product={product as singleProductType} /> : null}
 					</section>
 				</div>
 			</div>

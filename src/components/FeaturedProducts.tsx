@@ -4,6 +4,7 @@ import Error from './Error';
 import Loading from './Loading';
 import Product from './Product';
 import { ProductContextType } from '../utils/types';
+import { Link } from 'react-router-dom';
 
 const FeaturedProducts = () => {
 	const { areProductsLoading: loading, areProductsError: error, featured_products: featured } = useProductsContext() as ProductContextType;
@@ -27,6 +28,9 @@ const FeaturedProducts = () => {
 					return <Product key={item.id} {...item} />;
 				})}
 			</div>
+			<Link to="/products" className="btn">
+				Browse more
+			</Link>
 		</Wrapper>
 	);
 };
